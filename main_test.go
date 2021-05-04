@@ -95,14 +95,22 @@ func testCommands(t *testing.T, commands []testCommand) {
 
 	g := goldie.New(t)
 
-	g.WithFixtureDir("testdata/stdout")
+	err = g.WithFixtureDir("testdata/stdout")
+	if err != nil {
+		t.Fatal(err)
+	}
+
 	gotStdout, err := os.ReadFile(os.Stdout.Name())
 	if err != nil {
 		t.Fatal(err)
 	}
 	g.Assert(t, caseName, gotStdout)
 
-	g.WithFixtureDir("testdata/stderr")
+	err = g.WithFixtureDir("testdata/stderr")
+	if err != nil {
+		t.Fatal(err)
+	}
+
 	gotStderr, err := os.ReadFile(os.Stderr.Name())
 	if err != nil {
 		t.Fatal(err)
