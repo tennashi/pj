@@ -1,4 +1,4 @@
-# pj
+# pj [![Actions status](https://github.com/tennashi/pj/workflows/test/badge.svg)](https://github.com/tennashi/pj/actions)
 A tool for managing units of your work
 
 ## Usage
