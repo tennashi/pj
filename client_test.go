@@ -18,7 +18,10 @@ func createProjectsFile(t *testing.T, data string) *Config {
 	}
 	defer f.Close()
 
-	f.WriteString(data)
+	_, err = f.WriteString(data)
+	if err != nil {
+		t.Fatal(err)
+	}
 
 	return &Config{
 		DataDir: testDir,

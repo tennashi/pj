@@ -40,7 +40,10 @@ func NewClient(cfg *Config) (*Client, error) {
 	}
 
 	if fInfo.Size() < int64(len("{}")) {
-		f.WriteString("{}")
+		_, err := f.WriteString("{}")
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	return &Client{
