@@ -18,8 +18,9 @@ update-golden:
 	go test -update ./...
 
 .PHONY: lint
-lint: test
+lint:
 	go vet ./...
+	golangci-lint run ./...
 
 .PHONY: build
 build:
