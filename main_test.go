@@ -114,6 +114,7 @@ func TestRun(t *testing.T) {
 	cases := []testCommand{
 		{args: []string{"pj"}, wantExitCode: 0},
 		{args: []string{"pj", "-h"}, wantExitCode: 0},
+		{args: []string{"pj", "-v"}, wantExitCode: 0},
 		{args: []string{"pj", "init"}, wantExitCode: 0},
 		{args: []string{"pj", "init", "awesome-project"}, wantExitCode: 0},
 		{args: []string{"pj", "list"}, wantExitCode: 0},

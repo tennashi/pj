@@ -4,6 +4,9 @@ NAME:
 USAGE:
    pj [global options] command [command options] [arguments...]
 
+VERSION:
+   dev
+
 COMMANDS:
    list       List projects
    get        Get the project with the specified name
@@ -17,3 +20,4 @@ GLOBAL OPTIONS:
    --data-dir value          specify the path to store the projects file (default: $XDG_DATA_HOME/pj) [$PJ_DATA_DIR]
    --output value, -o value  specify the output format (one of: json) (default: "")
    --help, -h                show help (default: false)
+   --version, -v             print the version (default: false)

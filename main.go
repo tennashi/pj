@@ -8,6 +8,12 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
+var (
+	version = "dev"
+	commit  = "HEAD"
+	date    = "now"
+)
+
 func NewConfig(c *cli.Context) (*Config, error) {
 	dataDir := c.String("data-dir")
 	if dataDir != "" {
@@ -34,9 +40,15 @@ func NewConfig(c *cli.Context) (*Config, error) {
 }
 
 func run() (exitCode int) {
+	cli.VersionPrinter = func(c *cli.Context) {
+		fmt.Fprintf(c.App.Writer, "%v version %v (rev: %v)\n", c.App.Name, c.App.Version, commit)
+		fmt.Fprintf(c.App.Writer, "built at: %v\n", date)
+	}
+
 	app := cli.App{
-		Name:  "pj",
-		Usage: "A tool for managing units of your work",
+		Name:    "pj",
+		Version: version,
+		Usage:   "A tool for managing units of your work",
 		Flags: []cli.Flag{
 			&cli.StringFlag{
 				Name:    "data-dir",
