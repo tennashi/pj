@@ -69,6 +69,7 @@ func run() (exitCode int) {
 			CurrentCommand,
 			WorkspaceCommand,
 			SelfUpgradeCommand,
+			SelfDestructCommand,
 		},
 		ExitErrHandler: func(c *cli.Context, err error) {
 			panic(err)
