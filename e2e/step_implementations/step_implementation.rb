@@ -201,13 +201,13 @@ end
 
 step 'Check that the current project has <dir_name> as a workspace' do |dir_name|
   pj = @suite_store.get('cmd')
-  result = pj.current ""
+  result = pj.workspace.list ""
 
   tmp_dir = @scenario_store.get('tmp-dir')
   dir_path = Pathname.new(tmp_dir) / dir_name
 
   assert_equal(result.success?, true)
-  assert_equal(result.to_json['workspaces'].include?(dir_path.to_s), true)
+  assert_equal(result.to_json.map{|e| e['path']}.include?(dir_path.to_s), true)
 end
 
 step 'Check that the current project has only one workspace' do ||

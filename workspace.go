@@ -11,7 +11,89 @@ var WorkspaceCommand = &cli.Command{
 	Usage: "Subcommands for managing workspaces",
 	Subcommands: []*cli.Command{
 		WorkspaceAddCommand,
+		WorkspaceListCommand,
 	},
+}
+
+var WorkspaceListCommand = &cli.Command{
+	Name:   "list",
+	Usage:  "List workspaces for the current project",
+	Action: WorkspaceListAction,
+}
+
+func WorkspaceListAction(c *cli.Context) error {
+	cfg, err := NewConfig(c)
+	if err != nil {
+		return err
+	}
+
+	cli, err := NewClient(cfg)
+	if err != nil {
+		return err
+	}
+
+	project, err := cli.GetCurrentProject()
+	if err != nil {
+		return err
+	}
+
+	wss := make(Workspaces, 0, len(project.Workspaces))
+	for _, ws := range project.Workspaces {
+		wss = append(wss, &Workspace{
+			Path: ws,
+		})
+	}
+
+	var o interface{}
+	outputMethod := c.String("output")
+	var p Printer
+	switch outputMethod {
+	case "json":
+		p = NewJSONPrinter(os.Stdout)
+		o = wss
+	default:
+		p = NewTablePrinter(os.Stdout)
+		o = wss
+	}
+
+	err = p.Print(o)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+type Workspace struct {
+	Path string `json:"path"`
+}
+
+func (w *Workspace) Summary() []string {
+	if w == nil {
+		return nil
+	}
+
+	return []string{
+		w.Path,
+	}
+}
+
+type Workspaces []*Workspace
+
+func (w Workspaces) Header() []string {
+	return []string{"PATH"}
+}
+
+func (w Workspaces) Summaries() []Summarable {
+	if w == nil {
+		return nil
+	}
+
+	ret := make([]Summarable, 0, len(w))
+	for _, ws := range w {
+		ret = append(ret, ws)
+	}
+
+	return ret
 }
 
 var WorkspaceAddCommand = &cli.Command{
