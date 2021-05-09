@@ -68,6 +68,7 @@ before_scenario do
   pj.cd(tmp_dir)
 
   @scenario_store.put('tmp-dir', tmp_dir)
+  @scenario_store.put('projects', {})
 end
 
 after_scenario do
@@ -80,6 +81,10 @@ step 'Create a project with specifying the project name as <project_name>' do |p
   result = pj.init project_name
 
   tmp_dir = @scenario_store.get('tmp-dir')
+
+  projects_store = @scenario_store.get('projects')
+  projects_store[project_name] = result.to_json
+  @scenario_store.put('projects', projects_store)
 
   assert_equal(result.success?, true)
   assert_equal(result.to_json, {
@@ -216,4 +221,22 @@ step 'Check that the current project has only one workspace' do ||
 
   assert_equal(result.success?, true)
   assert_equal(result.to_json['workspaces'].length, 1)
+end
+
+step 'Merge the project <project_name> into the current project' do |project_name|
+  pj = @suite_store.get('cmd')
+  result = pj.merge project_name
+
+  assert_equal(result.success?, true)
+end
+
+step 'Check that the current project has all workspaces that <project_name> had' do |project_name|
+  pj = @suite_store.get('cmd')
+  result = pj.current ""
+
+  projects_store = @scenario_store.get('projects')
+  want = projects_store[project_name]['workspaces']
+
+  assert_equal(result.success?, true)
+  assert_equal((want - result.to_json['workspaces']).empty?, true)
 end

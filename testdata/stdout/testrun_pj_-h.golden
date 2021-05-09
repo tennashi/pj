@@ -13,6 +13,7 @@ COMMANDS:
    init                           Initialize the project
    change                         Change the current project to the specified project
    current                        Get the current project
+   merge                          Merge the specified project into the current project
    workspace                      Subcommands for managing workspaces
    self-upgrade                   Upgrade the pj itself
    self-destruct, self-uninstall  Uninstall the pj itself

@@ -67,6 +67,7 @@ func run() (exitCode int) {
 			InitCommand,
 			ChangeCommand,
 			CurrentCommand,
+			MergeCommand,
 			WorkspaceCommand,
 			SelfUpgradeCommand,
 			SelfDestructCommand,
