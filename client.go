@@ -276,3 +276,32 @@ func (c *Client) Update(project *Project) error {
 
 	return nil
 }
+
+func (c *Client) Remove(projectName string) error {
+	f, err := os.Open(c.projectsFilePath)
+	if err != nil {
+		return err
+	}
+
+	projectsFile := ProjectsFile{}
+	d := json.NewDecoder(f)
+	err = d.Decode(&projectsFile)
+	if err != nil {
+		return err
+	}
+
+	delete(projectsFile.Projects, projectName)
+
+	f, err = os.OpenFile(c.projectsFilePath, os.O_WRONLY|os.O_TRUNC, 0644)
+	if err != nil {
+		return err
+	}
+
+	e := json.NewEncoder(f)
+	err = e.Encode(projectsFile)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

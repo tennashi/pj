@@ -46,3 +46,11 @@ The user can create a project with specifying the project name as "awesome".
 * Create a project without specifying a project name
 * Add the current directory as a workspace to the current project
 * Check that the current project has only one workspace
+
+## The user can merge the specified project into the current project
+
+* Create a project with specifying the project name as "awesome-1"
+* Create a project with specifying the project name as "awesome-2"
+* Check that the current project is "awesome-2"
+* Merge the project "awesome-1" into the current project
+* Check that the current project has all workspaces that "awesome-1" had
