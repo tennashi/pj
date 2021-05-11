@@ -240,3 +240,21 @@ step 'Check that the current project has all workspaces that <project_name> had'
   assert_equal(result.success?, true)
   assert_equal((want - result.to_json['workspaces']).empty?, true)
 end
+
+step 'Change the current workspace to <workspace_name>' do |workspace_name|
+  pj = @suite_store.get('cmd')
+  result = pj.workspace.change workspace_name
+
+  assert_equal(result.success?, true)
+end
+
+step 'Check that the current workspace is <workspace_name>' do |workspace_name|
+  pj = @suite_store.get('cmd')
+  result = pj.current ""
+
+  tmp_dir = @scenario_store.get('tmp-dir')
+  dir_path = Pathname.new(tmp_dir) / workspace_name
+
+  assert_equal(result.success?, true)
+  assert_equal(result.to_json['currentWorkspace'], dir_path.to_s)
+end

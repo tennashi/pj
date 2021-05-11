@@ -131,6 +131,7 @@ func TestRun(t *testing.T) {
 		{args: []string{"pj", "get", "awesome-project"}, wantExitCode: 0},
 		{args: []string{"pj", "current"}, wantExitCode: 0},
 		{args: []string{"pj", "workspace", "list"}, wantExitCode: 0},
+		{args: []string{"pj", "workspace", "change", "workspace-2"}, wantExitCode: 0},
 	}
 
 	for _, tt := range cases {

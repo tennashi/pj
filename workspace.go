@@ -12,6 +12,7 @@ var WorkspaceCommand = &cli.Command{
 	Subcommands: []*cli.Command{
 		WorkspaceAddCommand,
 		WorkspaceListCommand,
+		WorkspaceChangeCommand,
 	},
 }
 
@@ -151,6 +152,33 @@ func WorkspaceAddAction(c *cli.Context) error {
 	}
 
 	err = p.Print(o)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+var WorkspaceChangeCommand = &cli.Command{
+	Name:   "change",
+	Usage:  "Change the current workspace to the specified workspace",
+	Action: WorkspaceChangeAction,
+}
+
+func WorkspaceChangeAction(c *cli.Context) error {
+	cfg, err := NewConfig(c)
+	if err != nil {
+		return err
+	}
+
+	cli, err := NewClient(cfg)
+	if err != nil {
+		return err
+	}
+
+	workspaceName := c.Args().First()
+
+	err = cli.ChangeCurrentWorkspace(workspaceName)
 	if err != nil {
 		return err
 	}
