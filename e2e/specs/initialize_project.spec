@@ -54,3 +54,16 @@ The user can create a project with specifying the project name as "awesome".
 * Check that the current project is "awesome-2"
 * Merge the project "awesome-1" into the current project
 * Check that the current project has all workspaces that "awesome-1" had
+
+## The user can change the current workspace of the current project
+
+* Create a project without specifying a project name
+* Create a new directory with the name "workspace-1"
+* Move to the directory "workspace-1"
+* Add the current directory as a workspace to the current project
+* Create a new directory with the name "workspace-2"
+* Move to the directory "workspace-2"
+* Add the current directory as a workspace to the current project
+* Check that the current workspace is "workspace-2"
+* Change the current workspace to "workspace-1"
+* Check that the current workspace is "workspace-1"

@@ -305,3 +305,49 @@ func (c *Client) Remove(projectName string) error {
 
 	return nil
 }
+
+func (c *Client) ChangeCurrentWorkspace(workspaceName string) error {
+	f, err := os.Open(c.projectsFilePath)
+	if err != nil {
+		return err
+	}
+
+	projectsFile := ProjectsFile{}
+	d := json.NewDecoder(f)
+	err = d.Decode(&projectsFile)
+	if err != nil {
+		return err
+	}
+
+	curProj, ok := projectsFile.Projects[projectsFile.CurrentProjectName]
+	if !ok {
+		return errors.New("not found")
+	}
+
+	found := ""
+	for _, w := range curProj.Workspaces {
+		if filepath.Base(w) == workspaceName {
+			found = w
+		}
+	}
+
+	if found == "" {
+		return errors.New("not found")
+	}
+
+	curProj.CurrentWorkspace = found
+	projectsFile.Projects[projectsFile.CurrentProjectName] = curProj
+
+	f, err = os.OpenFile(c.projectsFilePath, os.O_WRONLY|os.O_TRUNC, 0644)
+	if err != nil {
+		return err
+	}
+
+	e := json.NewEncoder(f)
+	err = e.Encode(projectsFile)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
